@@ -121,7 +121,7 @@ public class ReverseRecursivelyDoubleNode {
 
 - Suppose by Reverse 10 20 30 40 by reverse it becomes 40 30 20 10
 - So by recursion part reverse will be 40 30 20
-- and I am keeping reference of the head.next which is 20. 
+- and I am keeping reference of the head.next which is 20.
 - then after recursion I will make reference of 20.next = 10;
 - so i don't have to traverse the whole list again.
 
@@ -146,7 +146,7 @@ public class ReverseLinkListOptimal {
         Node head = LinkListUse.createLinkList();
         head = reverseLLR(head);
         LinkListUse.printLinkList(head);
-       
+
     }
 }
 ```
@@ -155,5 +155,6 @@ public class ReverseLinkListOptimal {
 </Tabs>
 
 ** Time Complexity **
+
 - Time Complexity: O(n) because Recurrence Relation: T(n) = T(n-1) + k where k is constant.
 - Space Complexity: O(1)
