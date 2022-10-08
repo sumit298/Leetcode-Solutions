@@ -70,7 +70,6 @@ const config = {
             docId: "intro",
             position: "left",
             label: "Solutions",
-            path: "./solutions",
           },
 
           {
@@ -103,10 +102,7 @@ const config = {
           {
             title: "More",
             items: [
-              {
-                label: "Blog",
-                to: "/blog",
-              },
+             
               {
                 label: "GitHub",
                 href: "https://github.com/facebook/docusaurus",
