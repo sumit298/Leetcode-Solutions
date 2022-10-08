@@ -1,0 +1,164 @@
+---
+sidebar_label: "Reverse Link List"
+sidebar_position: 3
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Problem Statement
+
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+## Problem Link
+
+https://leetcode.com/problems/reverse-linked-list/
+
+** Example 1: **
+
+![reverseImage](https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg)
+
+```
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+```
+
+** Example 2: **
+
+![reverse2](https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg)
+
+```
+Input: head = [1,2]
+Output: [2,1]
+```
+
+```
+Example 3:
+Input: head = []
+Output: []
+```
+
+** Constraints: **
+
+The number of nodes in the list is the range [0, 5000].
+
+- `-5000 <= Node.val <= 5000`
+
+### Approach: ** Iterative **
+
+- First create LinkList element of prev, current and temp.
+- point prev = null, current = head, and initialise temp.
+- then check while current element not becomes null assign temp = next of current and current.next = previous and previous = current and current = temp;
+- At last return previous because previous has all the reversed elements.
+
+![reverseLL](https://media.geeksforgeeks.org/wp-content/cdn-uploads/RGIF2.gif)
+
+<Tabs>
+<TabItem value="java" label="Java">
+
+```js
+class Solution{
+    public class ReverseLinkList {
+        public static Node reverseListIterative(Node head) {
+            Node current = head;
+            Node previous = null;
+            Node temp;
+            while (current != null) {
+                temp = current.next;
+                current.next = previous;
+                previous = current;
+                current = temp;
+            }
+            return previous;
+        }
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Approach: ** Recursive DoubleNode **
+
+<Tabs>
+<TabItem value="java" label="Java">
+
+```js
+
+class DoubleNode {
+    DoubleNode head;
+    DoubleNode tail;
+}
+
+public class ReverseRecursivelyDoubleNode {
+
+    public static DoubleNode reverseR(Node head){
+        if(head==null || head.next==null){
+            DoubleNode ans = new DoubleNode();
+            ans.head = head;
+            ans.tail = head;
+            return ans;
+        }
+        DoubleNode DoubleReverseHead = reverseR(head.next);
+        DoubleReverseHead.tail.next = head;
+        head.next = null;
+        DoubleNode ans = new DoubleNode();
+        ans.head = DoubleReverseHead.head;
+        ans.tail = head;
+        return ans;
+
+    }
+    public static void main(String[] args) {
+        Node head = LinkListUse.createLinkList();
+        DoubleNode doublehead = reverseR(head);
+        LinkListUse.printLinkList(doublehead.head);
+    }
+    // TimeComplexity: O(n)
+    // Space Complexity: O(1)
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+### Approach: ** Recursive Optimal **
+
+- Suppose by Reverse 10 20 30 40 by reverse it becomes 40 30 20 10
+- So by recursion part reverse will be 40 30 20
+- and I am keeping reference of the head.next which is 20. 
+- then after recursion I will make reference of 20.next = 10;
+- so i don't have to traverse the whole list again.
+
+<Tabs>
+<TabItem value="java" label="Java">
+
+```js
+public class ReverseLinkListOptimal {
+    public static Node reverseLLR(Node head){
+        if(head==null || head.next == null){
+            return head;
+        }
+
+        Node ReverseListTail = head.next;
+        Node ReverseHead = reverseLLR(head.next);
+        ReverseListTail.next = head;
+        head.next = null;
+        return ReverseHead;
+
+    }
+    public static void main(String[] args) {
+        Node head = LinkListUse.createLinkList();
+        head = reverseLLR(head);
+        LinkListUse.printLinkList(head);
+       
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+** Time Complexity **
+- Time Complexity: O(n) because Recurrence Relation: T(n) = T(n-1) + k where k is constant.
+- Space Complexity: O(1)
