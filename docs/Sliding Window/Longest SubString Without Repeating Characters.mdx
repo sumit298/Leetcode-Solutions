@@ -1,0 +1,111 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Problem Statement
+
+Given a string s, find the length of the longest substring without repeating characters.
+
+** Example 1: **
+
+```
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+```
+
+```
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+```
+
+** Example 3: **
+
+```
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+```
+
+** Constraints: **
+
+- `0 <= s.length <= 5 * 104`
+- `s consists of English letters, digits, symbols and spaces.`
+
+### Approach: Sliding Window
+
+- Window Sliding Technique is a computational technique which aims to reduce the use of nested loop and replace it with a single loop, thereby reducing the time complexity.
+- For this problem, I will take a hashset because it does not allows duplicate values and because (in HashSet) the operation 'contains()' runs in O(1).
+- If I take first example "abcabcbb" here we start with "a", max is 1 then "b", no duplicate so max is 2, then "c" also no duplicate max becomes 3, now in the next character "a" arrives so duplicate in the window so we will remove "a" from the left side, window becomes `bca` then further continued "b" arrives then again we will remove "b" from the left side, now window becomes `cab` then moving forward "c" arrives so duplicate in the window so remove "c" from the left side so window becomes `abc`, moving further "b" arrives then again duplicates in the window so remove "c" from the left side of the window but this time duplicates still remain in the window, so remove b from the left side, so now moving further "b" arrives and in the window no duplicate is there so it remain in the window.
+- Now we will check for the length of the window, length of the window is 3 and maximum length is 3.
+
+### Approach: Sliding Window Optimized
+
+- In this approach, I will take a hashmap because it does not allows duplicate values and because (in HashMap) the operation 'contains()' runs in O(1).
+- In this problem, first we will start from first position and then check in window where duplicates arrive or not.
+- If duplicates arrive, then we will remove the element from the left side and move forward.
+- And process will continue till the no duplicates remain in the window till the end.
+- And for the length, I will take the maximum of length of the window where no duplicates arrive.
+
+
+<Tabs>
+
+<TabItem value="java" label="Java">
+
+```java showLineNumbers
+class Solution{
+    public int lengthOfLongestSubstring(String str) {
+        HashSet<Character> charSet = new HashSet<>();
+        int left = 0;
+        int max = 0;
+        int right = 0;
+        while (right < str.length()) {
+            if (!charSet.contains(str.charAt(right))) {
+                charSet.add(str.charAt(right));
+                right++;
+                max = Math.max(max, charSet.size());
+            } else {
+                charSet.remove(str.charAt(left));
+                left++;
+            }
+        }
+        return max;
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="javaop" label="Java Optimal">
+
+```java showLineNumbers
+class Solution{
+    public int lengthOfLongestSubstring(String str) {
+        HashMap<Character, Integer> charMap = new HashMap<>();
+        int left = 0;
+        int max = 0;
+        int right = 0;
+        while (right < str.length()) {
+            if (charMap.containsKey(str.charAt(right))) {
+                left = Math.max(left, charMap.get(str.charAt(right)) + 1);
+            }
+            charMap.put(str.charAt(right), right);
+            max = Math.max(max, right - left + 1);
+            right++;
+        }
+        return max;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Complexity Analysis
+
+- Time Complexity: `O(n)`, where `n` is the length of the string.
+- Space Complexity: `O(min(m,n))`, where `m` is the size of the charset.
+

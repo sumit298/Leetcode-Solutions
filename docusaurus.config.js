@@ -56,6 +56,7 @@ const config = {
   ],
 
   themeConfig:
+    
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
@@ -115,6 +116,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ["java"],
       },
     }),
 };
