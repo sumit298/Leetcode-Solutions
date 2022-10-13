@@ -74,9 +74,13 @@ const config = {
           },
 
           {
-            href: "https://github.com/facebook/docusaurus",
+            href: "https://github.com/sumit298/Leetcode-Solutions",
             label: "GitHub",
             position: "right",
+            logo: {
+              alt: "Github Logo",
+              src: ""
+            }
           },
         ],
       },
@@ -111,7 +115,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} LeetCode Solutions, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
