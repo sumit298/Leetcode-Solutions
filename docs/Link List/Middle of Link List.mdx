@@ -1,0 +1,98 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Problem Statement
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+### Problem link
+
+[https://leetcode.com/problems/middle-of-the-linked-list/](https://leetcode.com/problems/middle-of-the-linked-list/)
+
+** Example 1: **
+
+![example1 ll](https://assets.leetcode.com/uploads/2021/07/23/lc-midlist1.jpg)
+
+```
+Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+```
+
+** Example 2: **
+
+![example2 ll](https://assets.leetcode.com/uploads/2021/07/23/lc-midlist2.jpg)
+
+```
+Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+```
+
+** Constraints **
+
+- The number of nodes in the list is in the range [1, 100]. 
+- `1 <= Node.val <= 100`
+
+### Approach: fast and slow pointers
+
+- The problem can be solved by using the fast and slow pointers technique.
+- The slow pointer moves one step at a time while the fast pointer moves two steps at a time.
+- When the fast pointer reaches the end of the linked list, the slow pointer must be in the middle.
+
+<Tabs>
+<TabItem value="java" label="Java" default>
+
+```java
+class Solution {
+    public ListNode middleNode(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        return slow;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+** Complexity Analysis **
+
+- Time complexity: `O(N)` where `N` is the number of nodes in the linked list.
+- Space complexity: `O(1)`, the space used by `slow` and `fast` pointers.
+
+
+### Approach 2
+
+<Tabs>
+<TabItem label="Java" value="java" default>
+
+```java
+class Solution {
+    public static Node middleofLL2(Node head){
+        Node midPrev = null;
+        while(head!=null && head.next!=null){
+            midPrev = midPrev == null ? head : midPrev.next;
+            head = head.next.next;
+        }
+        Node mid = midPrev.next;
+        midPrev.next = null;
+        return mid;
+    }
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+** Complexity Analysis **
+
+* Time complexity: `O(N)` where `N` is the number of nodes in the linked list.
+* Space complexity: `O(1)` 
