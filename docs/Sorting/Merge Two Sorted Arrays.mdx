@@ -1,0 +1,70 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Problem Statement
+
+Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, merge them into one sorted array.
+
+** Example 1: **
+
+```
+Input: nums1 = [2,4,6,8,10], nums2 = [1,3,5,7,9]
+Output: [1,2,3,4,5,6,7,8,9,10]
+```
+
+## Approach: with the help of third array
+
+- Take the third array result of size(nums1 + nums2).
+- Now check the array with num1 and nums2 whichever is the element is smallest between  them put in the result array.
+- repeat it till the nums1 or nums2 does not become empty
+- now if one element is empty, so no need to check it, just place the another array elements in the result array and return the resultant array.
+
+<Tabs>
+    <TabItem value="java" label="Java">
+
+```java showLineNumbers
+
+class Solution {
+    public static int[] mergeTwoSortedArray(int arr1[], int arr2[]){
+        int result[] = new int[arr1.length + arr2.length];
+        int i=0;
+        int j=0;
+        int k=0;
+        while(i<arr1.length && j< arr2.length){
+            if(arr1[i]< arr2[j]){
+                result[k] = arr1[i];
+                k++;
+                i++;
+            }
+            else{
+                result[k] = arr2[j];
+                k++;
+                j++;
+            }
+        }
+        // if one array is empty then no need to check it just put the another array elements in the result array
+        while(i<arr1.length){
+            result[k] = arr1[i];
+            k++;
+            i++;
+        }
+        while(j<arr2.length){
+            result[k] = arr2[j];
+            k++;
+            j++;
+        }
+        return result;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Complexity Analysis:
+
+- Time Complexity: O(n+m)
+- Space Complexity: O(n+m)
+
+
+

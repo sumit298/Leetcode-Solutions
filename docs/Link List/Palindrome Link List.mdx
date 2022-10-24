@@ -1,0 +1,95 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+### Problem Statement
+
+Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+
+### Problem link
+
+https://leetcode.com/problems/palindrome-linked-list/
+
+** Example 1: **
+
+![palindromell example1](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+```
+Input: head = [1,2,2,1]
+Output: true
+```
+
+** Example 2: **
+
+![palindrome example2](https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg)
+
+```
+Input: head = [1,2]
+Output: false
+```
+
+** Constraints: **
+
+- `The number of nodes in the list is in the range [1, 105].`
+- `0 <= Node.val <= 9`
+
+### Approach: Reverse Second Half and Compare With First Half
+
+** Algorithm **
+
+1. Find the middle of the link list
+2. Find the end of first half and reverse second half.
+3. Determine whether or not there is a palindrome.
+4. Restore the list.
+5. Return the result.
+
+<Tabs>
+<TabItem value="java" label="Java">
+
+```java showLineNumbers
+class Solution {
+    public static boolean isPalindromeLinkList(ListNode head){
+        if(head == null || head.next == null) return true;
+        // Find the middle of the link list
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // Find the end of first half and reverse second half.
+        ListNode reverseAfterMiddle = reverse(slow.next);
+        slow.next = null;
+        // Determine whether or not there is a palindrome.
+        ListNode firstHalf = head;
+        ListNode secondHalf = reverseAfterMiddle;
+        while(firstHalf != null && secondHalf != null){
+            if(firstHalf.val != secondHalf.val) return false;
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+        return true;
+    }
+
+    public static ListNode reverse(ListNode head){
+        ListNode prev = null;
+        ListNode current = head;
+        ListNode temp;
+        while(current!=null && current.next!=null){
+            temp.next = current.next;
+            current.next = prev;
+            prev = current;
+            current = temp;
+        }
+        return prev;
+    }
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+### Complexity Analysis
+
+- Time complexity: O(n)
+- Space complexity: O(1)
