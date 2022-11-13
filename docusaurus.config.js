@@ -56,7 +56,6 @@ const config = {
   ],
 
   themeConfig:
-    
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
@@ -79,9 +78,19 @@ const config = {
             position: "right",
             logo: {
               alt: "Github Logo",
-              src: ""
-            }
+              src: "",
+            },
           },
+          // Algolia DocSearch
+          // {
+          //   type: "docsearch",
+          //   position: "right",
+          //   config: {
+          //     apiKey: "YOUR_API_KEY",
+          //     indexName: "YOUR_INDEX_NAME",
+          //     appId: "YOUR_APP_ID",
+          //   },
+          // },
         ],
       },
       footer: {
@@ -107,7 +116,6 @@ const config = {
           {
             title: "More",
             items: [
-             
               {
                 label: "GitHub",
                 href: "https://github.com/facebook/docusaurus",

@@ -2,18 +2,46 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
 ### Problem Statement
+
 Given the head of the link list, find the length of the link list.
 
 ### Problem link
 
+** Example 1 **
 
-** Example 1 ** 
-
+```
 Input: head = [1,2,3,4,5]
-
 Output: 5
+```
 
 ** Example 2 **
-Input: head = [1,1,1,1,1]
 
+```
+Input: head = [1,1,1,1,1]
 Output: 5
+```
+
+### Approach 1: Traverse the list and increment the count
+
+- Traverse the list and increment the count till we reach the end of the list.
+- Return the count.
+
+<Tabs>
+<TabItem value="Java" label="Java">
+
+```java showLineNumbers
+class Solution {
+    public int getLength(ListNode head) {
+        ListNode temp = head;
+        int count = 0;
+        while(temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+}
+```
+
+</TabItem>
+</Tabs>

@@ -1,6 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import { DocSearch } from '@docsearch/react';
+
+import '@docsearch/css';
+
 
 const FeatureList = [
   {

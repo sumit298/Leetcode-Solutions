@@ -1,0 +1,83 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+### Problem Statement
+
+Given the `head` of a linked list, rotate the list to the right by `k` places.
+
+### Problem link
+
+https://leetcode.com/problems/rotate-list/
+
+** Example 1: **
+
+![rotatelistex1](https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg)
+
+```
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+```
+
+** Example 2: **
+
+![rotatelistex2](https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg)
+
+```
+Input: head = [0,1,2], k = 4
+Output: [2,0,1]
+```
+
+** Constraints: **
+
+- `The number of nodes in the list is in the range [0, 500].`
+- `-100 <= Node.val <= 100`
+- `0 <= k <= 2 * 109`
+
+### Approach: find the length and rotate
+
+- Find the length of the linked list
+- Find the new head by rotating the list
+- Return the new head
+
+<Tabs>
+<TabItem value="java" label="Java">
+
+```java showLineNumbers
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(k==0 || head == null){
+            return head;
+        }
+        ListNode temp = head;
+        int count = 0;
+        // reaching to the last Node
+        while(temp.next!=null){
+            temp = temp.next;
+            count++;
+        }
+        temp.next = head;
+        k = k % (count+1);
+        int jump = count - k;
+
+        temp = head;
+        while(jump>0){
+            temp = temp.next;
+            jump--;
+        }
+        // store 6-7
+        ListNode returnHead = temp.next;
+        temp.next = null;
+        return returnHead;
+
+    }
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+### Complexity Analysis
+
+- Time Complexity: `O(N)`, where `N` is the number of nodes in the linked list. We add a constant number of operations for each of the `N` nodes in the list.
+- Space Complexity: `O(1)`, the space complexity is `O(1)` because we only manipulated the pointers in the list.
