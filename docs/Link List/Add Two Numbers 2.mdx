@@ -1,0 +1,93 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+### Problem Statement
+
+You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+** Example 1: **
+
+![addtwonum2example1](https://assets.leetcode.com/uploads/2021/04/09/sumii-linked-list.jpg)
+
+```
+Input: l1 = [7,2,4,3], l2 = [5,6,4]
+Output: [7,8,0,7]
+```
+
+** Example 2: **
+
+```
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [8,0,7]
+```
+
+** Example 3: **
+
+```
+Input: l1 = [0], l2 = [0]
+Output: [0]
+```
+
+** Constraints: **
+
+* The number of nodes in each linked list is in the range `[1, 100]`.
+* `0 <= Node.val <= 9`
+* It is guaranteed that the list represents a number that does not have leading zeros.The number of nodes in each linked list is in the range [1, 100].
+* 0 <= Node.val <= 9
+* It is guaranteed that the list represents a number that does not have leading zeros.
+ 
+
+Follow up: Could you solve it without reversing the input lists?
+
+### Approach: Using Stack
+
+- Use two stacks insert each node of the link list into their respective stacks.
+- Pop the top element from both the stacks and add them.
+- If the sum is greater than 9, then carry the 1 to the next addition.
+- Create a new node with the sum % 10 and insert it into the result linked list.
+- Repeat the above steps until both the stacks are empty.
+- If there is a carry left, then insert a new node with the carry value into the result linked list.
+- Return the result linked list.
+
+<Tabs>
+<TabItem value="java" label="Java" default>
+
+```java
+class Solution {
+    public static ListNode addTwoNumbers2(ListNode l1, ListNode l2){
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<Integer> stack2 = new Stack<>();
+        while(l1!=null){
+            stack1.push(l1.val);
+            l1 = l1.next;
+        }
+        while(l2!=null){
+            stack2.push(l2.val);
+            l2 = l2.next;
+        }
+        ListNode list = new ListNode();
+        int sum = 0;
+        while(!stack1.empty() || !stack2.empty()){
+            if(stack1.empty()) sum+= stack1.pop();
+            if(stack2.empty()) sum+= stack2.pop();
+            list.val = sum%10;
+            ListNode head = new ListNode();
+            head.val = sum / 10;
+            head.next = list;
+            list = head;
+            sum /= 10;
+        }
+        return list.val == 0 ? list.next : list;
+    }
+}
+
+```
+</TabItem>
+</Tabs>
+
+### Complexity Analysis
+
+* Time Complexity: `O(max(m,n))` where `m` and `n` are the number of nodes in the two linked lists.
+* Space Complexity: `O(max(m,n))` where `m` and `n` are the number of nodes in the two linked lists.
