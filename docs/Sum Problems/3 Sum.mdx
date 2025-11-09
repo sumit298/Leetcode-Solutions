@@ -1,0 +1,271 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Problem Statement
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+** Example 1: **
+
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
+
+** Example 2: **
+
+```
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
+```
+
+** Example 3: **
+
+```
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
+``` 
+
+** Constraints: **
+```
+3 <= nums.length <= 3000
+-105 <= nums[i] <= 105
+```
+
+**Time Complexity:** O(n²)  
+**Space Complexity:** O(1) (excluding output)
+
+---
+
+## Approach
+
+### Step 1: Sorting for Simplicity
+
+We first sort the array.
+
+```java
+Arrays.sort(nums);
+```
+
+This makes it easier to:
+- Skip duplicates (identical values are adjacent)
+- Apply the two-pointer technique (smaller values on left, larger on right)
+
+**Time Cost:** O(n log n)
+
+---
+
+### Step 2: Fix One Element at a Time
+
+For each element `nums[i]`, we treat it as the first number of our triplet.
+
+The target sum we now need from the other two numbers is `-nums[i]`.
+
+**Example:** If `nums[i] = -2`, then we need two numbers that sum to `2`.
+
+```java
+for(int i = 0; i < nums.length - 2; i++){
+    int target = -nums[i];
+    // Find two numbers that sum to target...
+}
+```
+
+---
+
+### Step 3: Two-Pointer Search (Left & Right)
+
+Initialize:
+- `left = i + 1` (next element after `i`)
+- `right = nums.length - 1` (last element)
+
+Compute `sum = nums[left] + nums[right]`:
+
+```java
+int left = i + 1;
+int right = nums.length - 1;
+
+while(left < right){
+    int sum = nums[left] + nums[right];
+    
+    if(sum == target){
+        // Found a valid triplet → store it
+        result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+    }
+    else if(sum < target){
+        left++;  // We need a bigger number
+    }
+    else {
+        right--; // We need a smaller number
+    }
+}
+```
+
+| Condition | Action | Reason |
+|-----------|--------|--------|
+| `sum == target` | Store triplet | Found valid combination |
+| `sum < target` | `left++` | Need larger sum (move to bigger number) |
+| `sum > target` | `right--` | Need smaller sum (move to smaller number) |
+
+---
+
+### Step 4: Avoid Duplicates
+
+#### Before Starting the Inner Loop
+
+Skip duplicates of `nums[i]`:
+
+```java
+if(i > 0 && nums[i] == nums[i - 1]){
+    continue;
+}
+```
+
+This prevents processing the same first element multiple times.
+
+#### After Finding a Valid Triplet
+
+Skip duplicates for both `left` and `right` to avoid repeating the same combinations:
+
+```java
+if(sum == target){
+    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+    
+    // Skip duplicates
+    while(left < right && nums[left] == nums[left + 1]){
+        left++;
+    }
+    while(left < right && nums[right] == nums[right - 1]){
+        right--;
+    }
+    
+    // Move pointers
+    left++;
+    right--;
+}
+```
+
+**Why this works:** We skip all duplicate values before moving to the next unique pair.
+
+---
+
+### Step 5: Edge Case
+
+If array length < 3 → return empty list.
+
+```java
+if(nums.length < 3){
+    return new ArrayList<>();
+}
+```
+
+---
+
+
+### Example Walkthrough
+
+**Input:** `[-1, 0, 1, 2, -1, -4]`
+
+**After sorting:** `[-4, -1, -1, 0, 1, 2]`
+
+#### Iteration 1: i = 0, nums[i] = -4, target = 4
+- left = 1 (-1), right = 5 (2), sum = 1 < 4 → left++
+- left = 2 (-1), right = 5 (2), sum = 1 < 4 → left++
+- left = 3 (0), right = 5 (2), sum = 2 < 4 → left++
+- left = 4 (1), right = 5 (2), sum = 3 < 4 → left++
+- left = 5, right = 5 → exit loop
+
+#### Iteration 2: i = 1, nums[i] = -1, target = 1
+- left = 2 (-1), right = 5 (2), sum = 1 == 1 → **Found [-1, -1, 2]**
+- Skip duplicates, move pointers
+- left = 3, right = 4 → continue
+- left = 3 (0), right = 4 (1), sum = 1 == 1 → **Found [-1, 0, 1]**
+- Move pointers, exit loop
+
+#### Iteration 3: i = 2, nums[i] = -1
+- Skip (duplicate of nums[1])
+
+#### Iteration 4: i = 3, nums[i] = 0, target = 0
+- left = 4 (1), right = 5 (2), sum = 3 > 0 → right--
+- left = 4, right = 4 → exit loop
+
+**Output:** `[[-1, -1, 2], [-1, 0, 1]]`
+
+---
+
+### Key Takeaways
+
+1. **Sorting** enables efficient two-pointer search and duplicate handling
+2. **Target transformation** (`-nums[i]`) converts 3Sum to a 2Sum problem
+3. **Two pointers** converge from both ends based on sum comparison
+4. **Duplicate skipping** at three levels: outer loop, left pointer, right pointer
+5. **Time complexity** is dominated by the nested loops: O(n²)
+
+<Tabs>
+<TabItem value="Java" label="Java">
+
+```java showLineNumbers
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Edge case
+        if(nums.length < 3) return result;
+        
+        // Step 1: Sort
+        Arrays.sort(nums);
+        
+        // Step 2: Fix one element
+        for(int i = 0; i < nums.length - 2; i++){
+            // Skip duplicates for i
+            if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+            
+            int target = -nums[i];
+            int left = i + 1;
+            int right = nums.length - 1;
+            
+            // Step 3: Two-pointer search
+            while(left < right){
+                int sum = nums[left] + nums[right];
+                
+                if(sum == target){
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    
+                    // Step 4: Skip duplicates
+                    while(left < right && nums[left] == nums[left + 1]){
+                        left++;
+                    }
+                    while(left < right && nums[right] == nums[right - 1]){
+                        right--;
+                    }
+                    
+                    left++;
+                    right--;
+                }
+                else if(sum < target){
+                    left++;
+                }
+                else {
+                    right--;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
+```
+</TabItem>
+</Tabs>
