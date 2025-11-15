@@ -1,3 +1,93 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+## Problem Statement
+
+Given an array of integers, sort the array in ascending order using the Merge Sort algorithm.
+
+** Example 1: **
+```
+Input: arr = [38,27,43,3,9,82,10]
+Output: [3,9,10,27,38,43,82]
+```
+
+** Example 2: **
+```
+Input: arr = [5,2,4,6,1,3]
+Output: [1,2,3,4,5,6]
+```
+
+** Constraints: **
+- 1 <= arr.length <= 10^5
+- -10^6 <= arr[i] <= 10^6
+
+### Approach: Merge Sort Algorithm
+- Merge Sort is a divide-and-conquer algorithm that divides the input array into two halves, recursively sorts each half, and then merges the sorted halves back together.
+- The base case for the recursion is when the array has one or zero elements, in which case it is already sorted.
+- The merging process involves comparing the elements of the two sorted halves and combining them into a single sorted array.
+
+
+<Tabs>
+<TabItem value="java" label="Java" default>
+
+```java
+public class MergeSort{
+    public static void mergeSort(int arr[], int startIndex, int endIndex){
+        if(startIndex >= endIndex){
+            return; 
+        }
+        int mid = (startIndex + endIndex) / 2;
+        mergeSort(arr, startIndex, mid);
+        mergeSort(arr, mid+1, endIndex);
+        merge(arr, startIndex, mid, endIndex);
+        
+    }
+
+    public static void merge(int arr[], int startIndex, int mid, int endIndex){
+        int merged[] = new int[endIndex - startIndex + 1];
+        int left = startIndex;
+        int right = mid + 1;
+        int x = 0;
+        while(left<= mid && right <= endIndex){
+            if(arr[left]< arr[right]){
+                merged[x] = arr[left];
+                left++;
+                x++;
+            }
+            else {
+                merged[x] = arr[right];
+                right++;
+                x++;
+            }
+        }
+
+        while(left <= mid){
+            merged[x] = arr[left];
+            left++;
+            x++;
+        }
+
+        while(right <= endIndex){
+            merged[x] = arr[right];
+            right++;
+            x++;
+        }
+
+        for(int i=0; i<merged.length; i++){
+            arr[startIndex + i] = merged[i];
+        }
+    }
+}
+
+
+```
+</TabItem>
+</Tabs>
+
+** Complexity Analysis **
+- Time Complexity: `O(n log n)`, where `n` is the number of elements in the array.
+- Space Complexity: `O(n)`, due to the temporary arrays used during the merge process.
+
+
+
+
