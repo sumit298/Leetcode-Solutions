@@ -6,7 +6,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/vsDark");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "LeetCode Solutions",
+  title: "Leetcode Solutions",
   tagline: "Dinosaurs are cool",
   url: "https://your-docusaurus-test-site.com",
   baseUrl: "/",
@@ -59,7 +59,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "LeetCode Solutions",
+        title: "Leetcode Solutions",
         logo: {
           alt: "My Site Logo",
           src: "img/leetcode.svg",
@@ -123,7 +123,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} LeetCode Solutions, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Leetcode Solutions, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

@@ -3,9 +3,9 @@ sidebar_position: 1
 slug: '/'
 ---
 
-# 🚀 LeetCode Solutions
+# 🚀 Leetcode Solutions
 
-Welcome to my collection of **LeetCode problem solutions**! Here you'll find clean, well-documented code with detailed explanations for various algorithmic challenges.
+Welcome to my collection of **Leetcode problem solutions**! Here you'll find clean, well-documented code with detailed explanations for various algorithmic challenges.
 
 ## What You'll Find
 
